@@ -10,3 +10,6 @@ for tweet in tweets:
 	DB.session.add(db_tweet)
 	db_user.tweets.append(db_tweet)
 
+
+# .env
+DATABASE_URL="sqlite:///db.sqlite3"
