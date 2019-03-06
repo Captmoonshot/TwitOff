@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-	<h1>Tweets:</h1>
-	{% for tweet in tweets %}
-	<div><p>{{ tweet.user.name }} says: <b>{{ tweet.text }}</b></p></div>
-	{% endfor %}
-{% endblock %}
-
