@@ -5,7 +5,7 @@ from .models import User
 from .twitter import BASILICA
 
 
-def predict_user(user1_name, user2_name, tweet_text):
+def predict_user(user1_name, user2_name, tweet_text, cache=None):
     """Determine and return which user is more likely to say a given Tweet."""
     user1 = User.query.filter(User.name == user1_name).one()
     user2 = User.query.filter(User.name == user2_name).one()
@@ -18,3 +18,7 @@ def predict_user(user1_name, user2_name, tweet_text):
     tweet_embedding = BASILICA.embed_sentence(tweet_text, model='twitter')
     import pdb; pdb.set_trace()
     return log_reg.predict(np.array(tweet_embedding).reshape(1, -1))
+
+
+
+
