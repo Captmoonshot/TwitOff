@@ -16,8 +16,12 @@ def predict_user(user1_name, user2_name, tweet_text, cache=None):
                              np.zeros(len(user2.tweets))])
     log_reg = LogisticRegression().fit(embeddings, labels)
     tweet_embedding = BASILICA.embed_sentence(tweet_text, model='twitter')
-    import pdb; pdb.set_trace()
-    return log_reg.predict(np.array(tweet_embedding).reshape(1, -1))
+    
+    #import pdb; pdb.set_trace()
+    probability = np.max(log_reg.predict_proba(np.array(tweet_embedding).reshape(1, -1)))
+    prediction = log_reg.predict(np.array(tweet_embedding).reshape(1, -1))
+    return prediction, probability
+    
 
 
 

@@ -16,9 +16,10 @@ def create_app():
 
     @app.route('/')
     def root():
-    	users = User.query.all()
-    	return render_template('base.html', title='Home', users=users)
-
+        users = User.query.all()
+        #tweets = Tweet.query.all()
+        #return render_template('base.html', title='Home', users=users, tweets=tweets)
+        return render_template('base.html', title='Home', users=users)
 
     @app.route('/user', methods=['POST'])
     @app.route('/user/<name>', methods=['GET'])
@@ -41,12 +42,27 @@ def create_app():
     @app.route('/compare', methods=['POST'])
     def compare():
         user1, user2 = request.values['user1'], request.values['user2']
+        tweeted = request.values['tweet_text']
         if user1 == user2:
             return 'Cannot compare a user to themselves!'
         else:
-            prediction = predict_user(user1, user2,
+            y, proba = predict_user(user1, user2,
                                     request.values['tweet_text'])
-            return user1 if prediction else user2
+            
+
+            # return user1 if y else user2
+            if y:
+                return render_template('compare.html',
+                                    user=user1,
+                                    tweeted=tweeted,
+                                    prediction=y,
+                                    probability=round(proba*100, 2))
+            else:
+                return render_template('compare.html',
+                                    user=user2,
+                                    tweeted=tweeted,
+                                    prediction=y,
+                                    probability=round(proba*100, 2))
 
 
     @app.route('/reset')
