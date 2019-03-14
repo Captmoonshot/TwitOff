@@ -20,10 +20,15 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # app.config['FLASK_ENV'] = config('FLASK_ENV')
     DB.init_app(app)
-
+    # My RandomForestRegressor for Flask API
     regressor = pickle.load(open(
         os.path.join('pkl_objects',
             'regressor.pkl'), 'rb'))
+    # Manjula's RandomForestRegressor for Flask API
+    m = pickle.load(open(
+        os.path.join('pkl_objects',
+            'zillow.pkl'), 'rb'))
+
 
     @app.route('/')
     def root():
@@ -86,6 +91,20 @@ def create_app():
         y_hat = np.round(y_hat)
         output = y_hat[0]
         return jsonify(results=output)
+
+    @app.route('/manjula', methods=['POST'])
+    def estimate_value():
+        json_data = request.get_json(force=True)
+        house_features = [json_data['year_assessment'],json_data['land_use_type'], json_data['beds'], 
+                        json_data['baths'], json_data['total_rooms'], json_data['zip'], json_data['assessed_property_taxes'], 
+                        json_data['year_built'], json_data['sqft_house']]
+        house_features = np.array(house_features)
+        y_hat = m.predict([house_features])
+        y_hat = np.round(y_hat)
+        output = y_hat[0]
+        return jsonify(results=output)
+        
+
 
 
 
