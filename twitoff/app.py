@@ -104,6 +104,17 @@ def create_app():
         output = y_hat[0]
         return jsonify(results=output)
         
+    """To make the API call from python or Jupyter Notebook:
+    import requests
+    import json
+
+    #url = 'http://127.0.0.1:5000/manjula'
+    url = 'https://captmoonshot-twitoff.herokuapp.com/manjula'
+    data = json.dumps({'year_assessment':2015, 'land_use_type':261, 'beds':7, 'baths':2.0, 'total_rooms':0, 'zip':90210, 'assessed_property_taxes':3402.94, 'year_built': 1963, 'sqft_house':2000.0})
+    r = requests.post(url, data)
+
+    print(r.json())
+    """
 
 
 
