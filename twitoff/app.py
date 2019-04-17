@@ -82,7 +82,7 @@ def create_app():
 
     
 
-    @app.route('/api', methods=['POST'])
+    @app.route('/api', methods=['POST', 'GET'])
     def make_predict():
         data = request.get_json(force=True)
         predict_request = [data['beds'], data['baths'], data['square_feet'], data['lot_size'], data['hoa_per_month'], data['property_types'], data['property_age'], data['zip_codes']]
